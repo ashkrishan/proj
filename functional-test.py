@@ -34,6 +34,7 @@ class NewVisitorTest(unittest.TestCase):
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(any(row.text=='1: Buy weekly shopping' for row in rows))
         
+        #She adds another item to the t-do list
         self.fail('Finish the test!')
         
         
