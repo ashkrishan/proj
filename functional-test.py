@@ -26,8 +26,9 @@ class NewVisitorTest(unittest.TestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
 #She types "Buy weekly shopping" in the list
+        inputbox.clear()
         inputbox.send_keys('Buy weekly shopping')
-        inputbox.send_keys(Keys.Enter)
+        inputbox.send_keys(Keys.RETURN)
 
 #Jane clicks on the new button and weekly shopping is added to a table list
         table = self.browser.find_element_by_id('id_list_table')
