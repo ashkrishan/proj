@@ -18,3 +18,10 @@ class HomePageTest(TestCase):
         self.assertEqual(response.content.decode(), expected_html)
         #self.assertIn(b'<title>to-do lists</title>', response.content)
         #self.assertTrue(response.content.endswith(b'</html>'))
+        
+    def test_to_save_POST_request(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['item_text']= 'A new list item'
+        response = home_page(request)
+        self.assertIn('A new list item',response.content.decode())

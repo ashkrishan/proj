@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
+#import time
 
 class NewVisitorTest(unittest.TestCase):
     
@@ -31,6 +32,7 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.RETURN)
 
 #Jane clicks on the new button and weekly shopping is added to a table list
+        #time.sleep(10)
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(any(row.text=='1: Buy weekly shopping' for row in rows))
