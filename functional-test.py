@@ -29,13 +29,25 @@ class NewVisitorTest(unittest.TestCase):
 #She types "Buy weekly shopping" in the list
         inputbox.clear()
         inputbox.send_keys('Buy weekly shopping')
-        inputbox.send_keys(Keys.RETURN)
+        inputbox.send_keys(Keys.ENTER)
 
 #Jane clicks on the new button and weekly shopping is added to a table list
         #time.sleep(10)
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(any(row.text=='1: Buy weekly shopping' for row in rows))
+        self.assertTrue(any(row.text=='1: Buy weekly shopping' for row in rows), 'New item did not appear in list current text is \n%s' % (table.text))
+        
+        #Second item added by jane 
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        #self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
+#She types "Buy two pints of Milk" in the list
+        inputbox.clear()
+        inputbox.send_keys('Buy two pints of Milk')
+        inputbox.send_keys(Keys.ENTER)
+        
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('2: Buy two pints of Milk', [row.text for row in rows])
         
         #She adds another item to the t-do list
         self.fail('Finish the test!')
