@@ -28,13 +28,13 @@ class NewVisitorTest(unittest.TestCase):
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('to-do lists',header_text)
         
-#Jane is presented with text box and button to add a new task to the list
+#Jane is presented with text box  to add a new task to the list
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
 #She types "Buy weekly shopping" in the list
-        inputbox.clear()
+        #inputbox.clear()
         inputbox.send_keys('Buy weekly shopping')
-        inputbox.send_keys(Keys.ENTER)
+        inputbox.send_keys(Keys.RETURN)
         
         self.check_for_row_in_list('1: Buy weekly shopping')
         #self.check_for_row_in_list('2: Buy two pints of Milk')
@@ -48,7 +48,7 @@ class NewVisitorTest(unittest.TestCase):
 #She types "Buy two pints of Milk" in the list
         #inputbox.clear()
         inputbox.send_keys('Buy two pints of Milk')
-        inputbox.send_keys(Keys.ENTER)
+        inputbox.send_keys(Keys.RETURN)
         
         self.check_for_row_in_list('1: Buy weekly shopping')
         self.check_for_row_in_list('2: Buy two pints of Milk')
