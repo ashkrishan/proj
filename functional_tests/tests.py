@@ -72,6 +72,20 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('Buy weekly shopping',page_text)
         self.assertNotIn('Buy two pints of Milk',page_text)
         
+        #Fracis creates his own new list 
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Buy Cheese')
+        inputbox.send_keys(Keys.RETURN)
+        
+        francis_list_url = self.browser.current_url
+        self.assertRegex(francis_list_url, '/lists/.+')
+        self.assertNotEqual(francis_list_url, jane_list_url)
+        
+        #Again there is no trace od Jane's list
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Buy weekly shopping',page_text)
+        self.assertNotIn('Buy two pints of Milk',page_text)
+        
         #She adds another item to the t-do list
         self.fail('Finish the test!')
         

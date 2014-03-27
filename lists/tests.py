@@ -1,9 +1,10 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
-from lists.views import home_page
+from lists.views import home_page, view_list
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from lists.models import Item
+#from django.test import client
 
 
 # Create your tests here.
@@ -39,7 +40,7 @@ class HomePageTest(TestCase):
         response = home_page(request)        
         
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'],'/')
+        self.assertEqual(response['location'],'/lists/the_only_list_in_the_world')
         
         #self.assertIn('A new list item', response.content.decode())
         #expected_html = render_to_string('home.html', {'new_item_text': 'A new list item'})
@@ -49,15 +50,6 @@ class HomePageTest(TestCase):
         request = HttpRequest()
         home_page(request)
         self.assertEqual(Item.objects.count(),0)
-        
-    def test_to_display_homepage_can_display_all_items(self):
-        Item.objects.create(text='itemy 1')
-        Item.objects.create(text='itemy 2')
-        
-        request = HttpRequest()
-        response = home_page(request)
-        self.assertIn('itemy 1', response.content.decode())
-        self.assertIn('itemy 2', response.content.decode())
 
 class ItemModelTest(TestCase):
     def test_to_save_and_retrieve_items(self):
@@ -76,4 +68,23 @@ class ItemModelTest(TestCase):
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, "The first ever item")
         self.assertEqual(second_saved_item.text, "Second item")
+        
+class ListViewTest(TestCase):
+    
+    def test_uses_list_template(self):
+        response = self.client.get('/lists/the_only_list_in_the_world/')
+        self.assertTemplateUsed(response, 'list.html')
+    
+    def test_displays_all_items(self):
+        Item.objects.create(text='itemy 1')
+        Item.objects.create(text='itemy 2')
+        
+        #request = HttpRequest()
+        #response = view_list(request)
+        #self.assertIn('itemy 1', response.content.decode())
+        #self.assertIn('itemy 2', response.content.decode())
+        
+        response = self.client.get('/lists/the_only_list_in_the_world/')
+        self.assertContains(response, 'itemy 1')
+        self.assertContains(response,'itemy 2')
         
