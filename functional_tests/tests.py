@@ -2,7 +2,7 @@ from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
-#import time
+import time
 import os
 
 ##This is required for live testing server to point to correct port otherwise OS error is thrown by win 7
@@ -42,7 +42,8 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.RETURN)
         #Jane is taken to her own url for her lists
         jane_list_url = self.browser.current_url
-        self.assertRegex(jane_list_url,'/lists/.+')        
+        self.assertRegex(jane_list_url,'/lists/.+')
+        #time.sleep(5)
         self.check_for_row_in_list('1: Buy weekly shopping')
         #self.check_for_row_in_list('2: Buy two pints of Milk')
 #Jane clicks on the new button and weekly shopping is added to a table list
@@ -56,9 +57,10 @@ class NewVisitorTest(LiveServerTestCase):
         #inputbox.clear()
         inputbox.send_keys('Buy two pints of Milk')
         inputbox.send_keys(Keys.RETURN)
-        
+        #time.sleep(10)
         #Page updates again and Jane sees below 2 items in her own list
         self.check_for_row_in_list('1: Buy weekly shopping')
+       # time.sleep(5)
         self.check_for_row_in_list('2: Buy two pints of Milk')
         
         #New user Francis comes along and presented with new url        
@@ -87,7 +89,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('Buy two pints of Milk',page_text)
         
         #She adds another item to the t-do list
-        self.fail('Finish the test!')
+        #self.fail('Finish the test!')
         
         
 if __name__ == '__main__':
