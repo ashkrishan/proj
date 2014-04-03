@@ -9,6 +9,7 @@ import os
 os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:8082'
 class NewVisitorTest(LiveServerTestCase):
     
+    
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -21,6 +22,20 @@ class NewVisitorTest(LiveServerTestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
+
+    def test_layout_and_styling(self):
+        #Jane goes to the homepage
+        self.browser.get(self.live_server_url)        
+        self.browser.set_window_size(1024, 768)
+        #she notices page is well aligned
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width']/2, 505,delta=5)
+        
+        #She add the list and sees the list is centred        
+        inputbox.send_keys('testing\n')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        #self.browser.set_window_size(1024, 768)
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width']/2, 505, delta=5)
         
     def test_can_crewat_new_list_and_retrieve_new_list(self):
         
@@ -90,7 +105,8 @@ class NewVisitorTest(LiveServerTestCase):
         
         #She adds another item to the t-do list
         #self.fail('Finish the test!')
-        
+    
+  
         
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
