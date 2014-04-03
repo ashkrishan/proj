@@ -46,7 +46,7 @@ class NewVisitorTest(LiveServerTestCase):
     #Jane sees to-do lists on title and header textx
         self.assertIn('to-do lists', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('to-do lists',header_text)
+        self.assertIn('Start a new to-do list',header_text)
         
 #Jane is presented with text box  to add a new task to the list
         inputbox = self.browser.find_element_by_id('id_new_item')
