@@ -1,4 +1,4 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
@@ -7,7 +7,7 @@ import os
 
 ##This is required for live testing server to point to correct port otherwise OS error is thrown by win 7
 os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:8082'
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerCase):
     
     
     def setUp(self):
@@ -30,7 +30,6 @@ class NewVisitorTest(LiveServerTestCase):
         #she notices page is well aligned
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width']/2, 505,delta=5)
-        
         #She add the list and sees the list is centred        
         inputbox.send_keys('testing\n')
         inputbox = self.browser.find_element_by_id('id_new_item')
