@@ -1,7 +1,8 @@
 from .base import FunctionalTest
 from selenium.webdriver.common.keys import Keys
+from selenium import webdriver
 
-class NewVistorTest(FunctionalTest):    
+class NewVisitorTest(FunctionalTest):    
     
     def test_can_create_new_list_and_retrieve_new_list(self):
         
