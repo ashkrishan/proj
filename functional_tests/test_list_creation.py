@@ -1,58 +1,9 @@
-from django.contrib.staticfiles.testing import StaticLiveServerCase
-from selenium import webdriver
+from .base import FunctionalTest
 from selenium.webdriver.common.keys import Keys
-import unittest
-import time
-import os
-import sys
 
-##This is required for live testing server to point to correct port otherwise OS error is thrown by win 7
-os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:8082'
-class NewVisitorTest(StaticLiveServerCase):
+class NewVistorTest(FunctionalTest):    
     
-    @classmethod
-    def setUpClass(cls):
-        for arg in sys.argv:
-            if 'liveserver' in arg:
-                cls.server_url = 'http://' + arg.split('=')[1]
-                return
-        super().setUpClass()
-        cls.server_url = cls.live_server_url
-        #self.browser = webdriver.Firefox()
-        #self.browser.implicitly_wait(3)
-        
-    @classmethod
-    def tearDownClass(cls):
-        if cls.server_url == cls.live_server_url:
-            super().tearDownClass()
-
-    def tearDown(self):
-        self.browser.quit()
-     
-    def setUp(self):
-        self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)
-    
-    ##helper function after refactor
-    def check_for_row_in_list(self, row_text):
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn(row_text, [row.text for row in rows])
-
-    def test_layout_and_styling(self):
-        #Jane goes to the homepage
-        self.browser.get(self.server_url)        
-        self.browser.set_window_size(1024, 768)
-        #she notices page is well aligned
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width']/2, 505,delta=5)
-        #She add the list and sees the list is centred        
-        inputbox.send_keys('testing\n')
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        #self.browser.set_window_size(1024, 768)
-        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width']/2, 505, delta=5)
-        
-    def test_can_crewat_new_list_and_retrieve_new_list(self):
+    def test_can_create_new_list_and_retrieve_new_list(self):
         
     #Jane so really cool app on web and she liked to check it out and she types this url in the address bar
         self.browser.get(self.server_url)
@@ -120,9 +71,3 @@ class NewVisitorTest(StaticLiveServerCase):
         
         #She adds another item to the t-do list
         #self.fail('Finish the test!')
-    
-  
-        
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
-    
